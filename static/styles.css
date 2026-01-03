@@ -1,6 +1,8 @@
 body {
     font-family: sans-serif;
-    padding: 20px;
+    /* padding: 20px; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .stats-grid {
@@ -8,6 +10,74 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
+
+#header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.name {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+.hp {
+    grid-column-start: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+.stats-grid>button {
+    background-image: url(/static/borderCarac.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-width: 0px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#skillSection {
+    grid-column-start: 3;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+
+#actionSection {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+}
+
+#skillGrid {
+    display: flex;
+    flex-direction: column;
+}
+
+#skillGrid>button {
+    background-image: url(/static/borderSkill.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: space-between;
+    border-width: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* .skill-mod {
+    justify-content: space-between;
+} */
 
 input {
     margin: 5px;
@@ -26,6 +96,23 @@ button {
 
 .section {
     display: block;
+    padding: 20px;
+    border-image-source: url(/static/border.png);
+    border-image-slice: 33% fill;
+    border-image-width: 100px 50px;
+    margin: 5px;
+}
+
+h2 {
+    margin-block: 0px;
+}
+
+h3 {
+    margin-block: 5px;
+}
+
+h4 {
+    margin-block: 5px;
 }
 
 /* Mobile view: use tabs */
@@ -81,7 +168,7 @@ button {
 .stat-mod {
     width: 50px;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 2.5em;
     margin-bottom: 4px;
 }
 

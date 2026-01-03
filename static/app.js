@@ -143,7 +143,7 @@ function renderStats() {
 
     const btn = grid.querySelector(`button[name="${stat}"]`);
     btn.querySelector(`.stat-mod`).textContent = s.modifier >= 0 ? "+" + s.modifier : s.modifier;
-    btn.querySelector(`.stat-base`).textContent = `${s.total} ${s.racialBonus ? `+${s.racialBonus}` : ""}`;
+    btn.querySelector(`.stat-base`).textContent = s.total;
     btn.onclick = () => rollStat(stat);
   }
 
@@ -170,7 +170,7 @@ function renderSkills() {
   for (const btn of grid.children) {
     const skill = btn.getAttribute("name");
     const s = getEffectiveSkill(skill);
-    btn.querySelector(`.stat-mod`).textContent = `${s.totalMod >= 0 ? "+" + s.totalMod : s.totalMod} ${s.classMod ? " (class)" : ""}${s.bgdMod ? " (background)" : ""}`;
+    btn.querySelector(`.skill-mod`).textContent = s.totalMod >= 0 ? "+" + s.totalMod : s.totalMod;
     btn.onclick = () => rollSkill(skill);
   }
 }
