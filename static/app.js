@@ -195,7 +195,7 @@ function renderRage() {
 
 function renderCombat() {
   document.getElementById("toggleCombatBtn").textContent = state.combat.inCombat ? `End Combat` : `Enter Combat`;
-  document.getElementById("combatControls").style.display = state.combat.inCombat ? "inline-block" : "none";
+  document.getElementById("startTurnBtn").style.display = state.combat.inCombat ? "inline-block" : "none";
   renderActions();
   renderBonusActions();
   // show reckless attack button

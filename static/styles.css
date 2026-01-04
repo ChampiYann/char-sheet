@@ -2,7 +2,9 @@ body {
     font-family: sans-serif;
     /* padding: 20px; */
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    background-image: url(/static/wp2227193-dungeons-dragons-wallpapers.jpg);
+    background-position-x: right;
 }
 
 .stats-grid {
@@ -12,10 +14,10 @@ body {
 }
 
 #header {
-    grid-column-start: 1;
-    grid-column-end: 4;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-row-start: 1;
+    grid-row-end: 4;
+    /* display: grid; */
+    /* grid-template-columns: repeat(3, 1fr); */
 }
 
 .name {
@@ -43,18 +45,19 @@ body {
     align-items: center;
     border-width: 0px;
     background-color: rgba(0, 0, 0, 0);
+    max-width: 120px;
 }
 
 #skillSection {
-    grid-column-start: 3;
-    grid-row-start: 2;
+    grid-column-start: 4;
+    grid-row-start: 1;
     grid-row-end: 4;
 }
 
 #actionSection {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 3;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 2;
 }
 
 #skillGrid {
@@ -72,7 +75,8 @@ body {
     justify-content: space-between;
     border-width: 0px;
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 5%;
+    max-width: 300px;
 }
 
 /* .skill-mod {
@@ -97,10 +101,12 @@ button {
 .section {
     display: block;
     padding: 20px;
-    border-image-source: url(/static/border.png);
+    border-image-source: url(/static/borderEmpty.png);
     border-image-slice: 33% fill;
     border-image-width: 100px 50px;
-    margin: 5px;
+    border-image-outset: 5px;
+    margin: 10px;
+    background-image: radial-gradient(farthest-corner, white, #ffffff1c);
 }
 
 h2 {
