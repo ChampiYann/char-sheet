@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="utf-8">
-  <title>D&D Character — Combat & Rage</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -11,33 +10,30 @@
 
 <body>
 
-  <div id="header" class="section">
+  <section id="header">
     <div class="name">
       <h1 id="charName">Loading...</h1>
       <div id="raceLine"></div>
       <div id="classLine"></div>
+      <div id="bgLine"></div>
     </div>
 
-    <div id="initiative">
-      <h3>Initiative</h3>
-      <div>
-        <div id="initiativeBox" class="initiative">—</div>
-        <div>
-          <button id="toggleCombatBtn" class="small">Enter Combat</button>
-          <button id="startTurnBtn" class="small">Start Your Turn</button>
-        </div>
+    <div id="headerStats">
+      <div id="toggleCombatBtn" class="bg-border square-border">
+        <div class="stat-name">Initiative</div>
+        <div id="initiativeBox" class="stat-mod">—</div>
       </div>
-    </div>
 
-    <div id="ac">
-      <h3>Armor Class</h3>
-      <div id="armorClassBox" class="armorClass">—</div>
-    </div>
+      <div id="ac" class="bg-border">
+        <div class="stat-name">AC</div>
+        <div id="armorClassBox" class="stat-mod">—</div>
+      </div>
 
-    <div id="conditions">
-      <h3>Conditions</h3>
-      <div id="appliedConditions">-</div>
-      <button id="conditionsBtn">Edit</button>
+      <div id="conditionsBtn" class="bg-border square-border">
+        <div class="stat-name">Conditions</div>
+        <div id="appliedConditions">-</div>
+      </div>
+      <!-- <button id="conditionsBtn">Edit</button> -->
       <dialog id="conditionsDialog">
         <form id="conditionsInput" method="dialog">
           <label>Blinded
@@ -89,224 +85,217 @@
           <button formmethod="dialog" value="submit">Submit</button>
         </form>
       </dialog>
-    </div>
 
-    <div id="hp" class="hp">
-      <h3>Hit Points</h3>
-      <div class="hp-row">
-        <div id="hpBox" class="hp-value">—</div>
-        <div id="hpBtns">
-          <button id="recordDamageBtn" class="small">Damage</button>
-          <button id="healBtn" class="small">Heal</button>
-        </div>
-        <dialog id="damageDialog">
-          <form id="damageInput">
-            <label>Damage points taken:
-              <input id="damagePoints" type="number" name="damageAmount" value="0" />
-            </label>
-            <label>Damage type taken:
-              <select name="damageType" id="damageType">
-                <option value="acid">Acid</option>
-                <option value="bludgeoning">Bludgeoning</option>
-                <option value="cold">Cold</option>
-                <option value="fire">Fire</option>
-                <option value="force">Force</option>
-                <option value="lightning">Lightning</option>
-                <option value="necrotic">Necrotic</option>
-                <option value="piercing">Piercing</option>
-                <option value="poison">Poison</option>
-                <option value="psychic">Psychic</option>
-                <option value="radiant">Radiant</option>
-                <option value="slashing">Slashing</option>
-                <option value="thunder">Thunder</option>
-              </select>
-            </label>
+      <div id="hp" class="bg-border square-border">
+        <div class="stat-name">Hit Points</div>
+        <div id="hpBox" class="stat-mod">—</div>
+      </div>
+      <dialog id="hpDialog">
+        <form id="hpInput">
+          <label>HP:
+            <input id="healthPoints" type="number" name="healthPoints" value="0" />
+          </label>
+          <button formmethod="dialog" value="heal">Heal</button>
+          <label>Damage type taken:
+            <select name="damageType" id="damageType">
+              <option value="acid">Acid</option>
+              <option value="bludgeoning">Bludgeoning</option>
+              <option value="cold">Cold</option>
+              <option value="fire">Fire</option>
+              <option value="force">Force</option>
+              <option value="lightning">Lightning</option>
+              <option value="necrotic">Necrotic</option>
+              <option value="piercing">Piercing</option>
+              <option value="poison">Poison</option>
+              <option value="psychic">Psychic</option>
+              <option value="radiant">Radiant</option>
+              <option value="slashing">Slashing</option>
+              <option value="thunder">Thunder</option>
+            </select>
+          </label>
+          <button formmethod="dialog" value="damage">Damage</button>
+          <button formmethod="dialog" value="">Cancel</button>
+        </form>
+      </dialog>
+
+      <div id="headerBtns">
+        <button id="startTurnBtn" class="small">Start Your Turn</button>
+        <button id="restBtn" class="small">Rest</button>
+        <dialog id="restDialog">
+          <form id="restInput">
+            <label>Hit Dice</label>
             <button formmethod="dialog" value="">Cancel</button>
-            <button formmethod="dialog" value="submit">Submit</button>
+            <button formmethod="dialog" value="shortRest">Short Rest</button>
+            <button formmethod="dialog" value="longRest">Long Rest</button>
           </form>
         </dialog>
-        <dialog id="healDialog">
-          <form id="healInput">
-            <label>Health points gained:
-              <input id="healPoints" type="number" name="healAmount" value="0" />
-            </label>
-            <button formmethod="dialog" value="">Cancel</button>
-            <button formmethod="dialog" value="submit">Submit</button>
-          </form>
-        </dialog>
-      </div>
-      <h4>Relentless Endurance</h4>
-      <div class="hp-row">
-        <div>
-          <input type="checkbox" name="relentlessEndurance" id="relentlessEndurance" disabled />
-        </div>
-        <button id="relentlessEnduranceBtn" class="small" disabled>Use</button>
-      </div>
-      <h4>Hit Die</h4>
-      <div class="hp-row">
-        <div id="hitDie" class="hp-value">—</div>
-        <button id="shortRestBtn" class="small">Short Rest</button>
-        <button id="longRestBtn" class="small">Long Rest</button>
       </div>
     </div>
+  </section>
+
+  <div class="tabs">
+    <button data-tab="stats">Stats</button>
+    <button data-tab="savingThrow">Saves</button>
+    <button data-tab="skill">Skills</button>
+    <button data-tab="action">Actions</button>
   </div>
 
-  <div id="statsSection" class="section">
+  <section id="statsSection">
     <h2>Abilities</h2>
     <div class="stats-grid" id="statsGrid">
-      <button name="STR">
+      <div name="STR" class="bg-border">
         <div class="stat-name">Strength</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="DEX">
+      </div>
+      <div name="DEX" class="bg-border">
         <div class="stat-name">Dexterity</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="CON">
+      </div>
+      <div name="CON" class="bg-border">
         <div class="stat-name">Constitution</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="INT">
+      </div>
+      <div name="INT" class="bg-border">
         <div class="stat-name">Intelligence</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="WIS">
+      </div>
+      <div name="WIS" class="bg-border">
         <div class="stat-name">Wisdom</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="CHA">
+      </div>
+      <div name="CHA" class="bg-border">
         <div class="stat-name">Charisma</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div id="savingThrowSection" class="section">
+  <section id="savingThrowSection">
     <h2>Saving Throws</h2>
     <div class="stats-grid" id="savingThrowGrid">
-      <button name="STR">
+      <div name="STR" class="bg-border">
         <div class="stat-name">Strength</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="DEX">
+      </div>
+      <div name="DEX" class="bg-border">
         <div class="stat-name">Dexterity</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="CON">
+      </div>
+      <div name="CON" class="bg-border">
         <div class="stat-name">Constitution</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="INT">
+      </div>
+      <div name="INT" class="bg-border">
         <div class="stat-name">Intelligence</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="WIS">
+      </div>
+      <div name="WIS" class="bg-border">
         <div class="stat-name">Wisdom</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
-      <button name="CHA">
+      </div>
+      <div name="CHA" class="bg-border">
         <div class="stat-name">Charisma</div>
         <div class="stat-mod">-</div>
         <div class="stat-base">-</div>
-      </button>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div id="skillSection" class="section">
+  <section id="skillSection">
     <h2>Skills</h2>
     <div id="skillGrid" class="skill-grid">
-      <button name="acrobatics">
+      <div name="acrobatics" class="bg-border">
         <div class="skill-name">Acrobatics</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="animalHandling">
+      </div>
+      <div name="animalHandling" class="bg-border">
         <div class="skill-name">Animal Handling</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="arcana">
+      </div>
+      <div name="arcana" class="bg-border">
         <div class="skill-name">Arcana</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="athletics">
+      </div>
+      <div name="athletics" class="bg-border">
         <div class="skill-name">Athletics</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="deception">
+      </div>
+      <div name="deception" class="bg-border">
         <div class="skill-name">Deception</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="history">
+      </div>
+      <div name="history" class="bg-border">
         <div class="skill-name">History</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="insight">
+      </div>
+      <div name="insight" class="bg-border">
         <div class="skill-name">Insight</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="intimidation">
+      </div>
+      <div name="intimidation" class="bg-border">
         <div class="skill-name">Intimidation</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="investigation">
+      </div>
+      <div name="investigation" class="bg-border">
         <div class="skill-name">Investigation</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="medicine">
+      </div>
+      <div name="medicine" class="bg-border">
         <div class="skill-name">Medicine</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="nature">
+      </div>
+      <div name="nature" class="bg-border">
         <div class="skill-name">Nature</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="perception">
+      </div>
+      <div name="perception" class="bg-border">
         <div class="skill-name">Perception</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="performance">
+      </div>
+      <div name="performance" class="bg-border">
         <div class="skill-name">Performance</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="persuasion">
+      </div>
+      <div name="persuasion" class="bg-border">
         <div class="skill-name">Persuasion</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="religion">
+      </div>
+      <div name="religion" class="bg-border">
         <div class="skill-name">Religion</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="sleightOfHand">
+      </div>
+      <div name="sleightOfHand" class="bg-border">
         <div class="skill-name">Sleight of Hand</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="stealth">
+      </div>
+      <div name="stealth" class="bg-border">
         <div class="skill-name">Stealth</div>
         <div class="skill-mod">-</div>
-      </button>
-      <button name="survival">
+      </div>
+      <div name="survival" class="bg-border">
         <div class="skill-name">Survival</div>
         <div class="skill-mod">-</div>
-      </button>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div id="actionSection" class="section">
+  <section id="actionSection">
     <h2>Actions</h2>
     <div id="actionsList"></div>
     <h3>Bonus Actions</h3>
     <div id="bonusActionsList"></div>
-  </div>
+  </section>
 
   <!-- 🔥 JS MOVED OUT -->
   <script src="{{ url_for('static', filename='app.js') }}"></script>

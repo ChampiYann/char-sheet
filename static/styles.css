@@ -3,8 +3,47 @@ body {
     /* padding: 20px; */
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background-image: url(/static/wp2227193-dungeons-dragons-wallpapers.jpg);
+    /* background-image: url(/static/wp2227193-dungeons-dragons-wallpapers.jpg); */
     background-position-x: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#header {
+    grid-row-start: 1;
+    grid-row-end: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    margin-bottom: 50px;
+    min-width: 250px;
+}
+
+#headerStats {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-around;
+    flex: 1;
+}
+
+#hp {
+    grid-column-start: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+#headerBtns {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .stats-grid {
@@ -13,38 +52,12 @@ body {
     gap: 10px;
 }
 
-#header {
-    grid-row-start: 1;
-    grid-row-end: 4;
-    /* display: grid; */
-    /* grid-template-columns: repeat(3, 1fr); */
-}
-
-.name {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 1;
-    grid-row-end: 4;
-}
-
-.hp {
-    grid-column-start: 3;
-    grid-row-start: 1;
-    grid-row-end: 4;
-}
-
-.stats-grid>button {
+.stats-grid>div {
     background-image: url(/static/borderCarac.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: top center;
     height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    border-width: 0px;
-    background-color: rgba(0, 0, 0, 0);
     max-width: 120px;
 }
 
@@ -65,23 +78,42 @@ body {
     flex-direction: column;
 }
 
-#skillGrid>button {
+#skillGrid>div {
     background-image: url(/static/borderSkill.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-color: rgba(0, 0, 0, 0);
-    display: flex;
-    justify-content: space-between;
-    border-width: 0px;
+    flex-direction: row;
     padding-left: 20px;
     padding-right: 5%;
     max-width: 300px;
 }
 
-/* .skill-mod {
+.bg-border {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0px;
+    padding: 10px;
+    margin-top: 10px;
+    justify-items: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-} */
+}
+
+.square-border {
+    background-image: url(/static/borderBonus.png);
+    width: 100px;
+    height: 80px;
+}
+
+#ac {
+    background-image: url(/static/borderCA.png);
+    width: 70px;
+    height: 80px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
 
 input {
     margin: 5px;
@@ -98,7 +130,7 @@ button {
     margin-bottom: 10px;
 }
 
-.section {
+section {
     display: block;
     padding: 20px;
     border-image-source: url(/static/borderEmpty.png);
@@ -121,8 +153,53 @@ h4 {
     margin-block: 5px;
 }
 
+/* tablet */
+@media (max-width: 1280px) {
+    body {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #header {
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        flex-direction: row;
+    }
+
+    .name {
+        margin-bottom: unset;
+        margin-right: 50px;
+    }
+
+    #skillSection {
+        grid-column-start: 3;
+        grid-row-start: 2;
+        grid-row-end: 5;
+    }
+
+    #actionSection {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 3;
+    }
+}
+
 /* Mobile view: use tabs */
 @media (max-width: 700px) {
+
+    body {
+        display: block;
+    }
+
+    #header {
+        flex-direction: column;
+    }
+
+    .name {
+        margin-bottom: 50px;
+        margin-right: unset;
+    }
 
     /* tabs are visible */
     .tabs {
@@ -142,39 +219,29 @@ h4 {
     }
 
     /* hide all sections by default */
-    .section {
+    section {
         display: none;
     }
 
     /* show active section */
-    .section.active {
+    section.active {
         display: block;
         padding-top: 10px;
     }
 }
 
-/* each stat box */
-.stat-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
 /* stat name */
 .stat-name {
     font-weight: bold;
-    margin-bottom: 4px;
-    font-size: 1.1em;
+    margin-top: 5px;
+    font-size: 1em;
 }
 
 /* modifier field */
 .stat-mod {
-    width: 50px;
-    text-align: center;
-    font-size: 2.5em;
+    /* width: 50px; */
+    /* text-align: center; */
+    font-size: 2.2em;
     margin-bottom: 4px;
 }
 
@@ -182,12 +249,17 @@ h4 {
 .stat-base {
     width: 50px;
     text-align: center;
+    margin-bottom: 3px;
 }
 
 input[readonly] {
     background: #f5f5f5;
     color: #333;
     cursor: default;
+}
+
+input[type="checkbox"]{
+  accent-color: rgb(255, 0, 0);
 }
 
 .attack-row {
@@ -198,11 +270,3 @@ input[readonly] {
     flex: 1;
     padding: 10px;
 }
-
-/* .hp-row {
-    display: flex;
-}
-
-.hp-value {
-    flex: 1;
-} */

@@ -90,32 +90,24 @@ function maxRageCharges() {
 // ---------- UI Rendering ----------
 function renderHitPoints() {
   document.getElementById("hpBox").innerText = `${state.hitPoints}/${character.maxHitPoints}`;
-  document.getElementById("hitDie").innerHTML = "";
+}
+
+function renderRest() {
+  const label = document.getElementById("restInput").querySelector("label");
+  label.innerHTML = "";
+  label.textContent = "Hit Dice";
   for (let i = 0; i < state.spentHitDice; i++) {
     let input = document.createElement("input");
     input.type = "checkbox";
-    input.setAttribute("disabled", null);
+    input.style.pointerEvents = "none";
+    // input.setAttribute("disabled", null);
     input.setAttribute("checked", null);
-    document.getElementById("hitDie").appendChild(input);
+    label.appendChild(input);
   }
   for (let i = 0; i < character.level - state.spentHitDice; i++) {
     let input = document.createElement("input");
     input.type = "checkbox";
-    input.setAttribute("disabled", null);
-    document.getElementById("hitDie").appendChild(input);
-  }
-  const relentlessEnduranceBtn = document.getElementById("relentlessEnduranceBtn");
-  const relentlessEndurance = document.getElementById("relentlessEndurance");
-  if (!state.relentlessEnduranceUsed) {
-    relentlessEndurance.removeAttribute("checked");
-    if (state.hitPoints === 0) {
-      relentlessEnduranceBtn.removeAttribute("disabled");
-    } else {
-      relentlessEnduranceBtn.setAttribute("disabled", null);
-    }
-  } else {
-    relentlessEndurance.setAttribute("checked", null);
-    relentlessEnduranceBtn.setAttribute("disabled", null);
+    label.appendChild(input);
   }
 }
 
@@ -141,7 +133,7 @@ function renderStats() {
   for (const stat of Object.keys(character.stats)) {
     const s = getEffectiveStat(stat);
 
-    const btn = grid.querySelector(`button[name="${stat}"]`);
+    const btn = grid.querySelector(`div[name="${stat}"]`);
     btn.querySelector(`.stat-mod`).textContent = s.modifier >= 0 ? "+" + s.modifier : s.modifier;
     btn.querySelector(`.stat-base`).textContent = s.total;
     btn.onclick = () => rollStat(stat);
@@ -158,7 +150,7 @@ function renderSavingThrow() {
   for (const stat of Object.keys(character.stats)) {
     const s = getEffectiveStat(stat).modifier + getEffectiveStat(stat).saveBonus;
 
-    const btn = grid.querySelector(`button[name="${stat}"]`);
+    const btn = grid.querySelector(`div[name="${stat}"]`);
     btn.querySelector(`.stat-mod`).textContent = s >= 0 ? "+" + s : s;
     btn.onclick = () => rollSave(stat);
   }
@@ -180,22 +172,33 @@ function renderRage() {
   for (let i = 0; i < state.rage.usedCharges; i++) {
     let input = document.createElement("input");
     input.type = "checkbox";
-    input.setAttribute("disabled", null);
+    input.style.pointerEvents = "none";
+    // input.setAttribute("disabled", null);
     input.setAttribute("checked", null);
     document.getElementById("rageCharges").appendChild(input);
   }
   for (let i = 0; i < maxRageCharges() - state.rage.usedCharges; i++) {
     let input = document.createElement("input");
     input.type = "checkbox";
-    input.setAttribute("disabled", null);
+    input.style.pointerEvents = "none";
+    // input.setAttribute("disabled", null);
     document.getElementById("rageCharges").appendChild(input);
   }
   document.getElementById("rageBtn").textContent = state.rage.active ? "End rage" : "Rage";
 }
 
 function renderCombat() {
-  document.getElementById("toggleCombatBtn").textContent = state.combat.inCombat ? `End Combat` : `Enter Combat`;
-  document.getElementById("startTurnBtn").style.display = state.combat.inCombat ? "inline-block" : "none";
+  const startTurnBtn = document.getElementById("startTurnBtn");
+  if (state.combat.inCombat) {
+    startTurnBtn.removeAttribute("disabled");
+    document.body.style.backgroundImage = "url(/static/wp2227193-dungeons-dragons-wallpapers.jpg)";
+    document.body.style.backgroundPositionX = "right";
+  } else {
+    startTurnBtn.setAttribute("disabled", null);
+    document.body.style.backgroundImage = "url(/static/wp4110719-dnd-wallpapers.jpg)";
+    document.body.style.backgroundPositionX = "center";
+  }
+
   renderActions();
   renderBonusActions();
   // show reckless attack button
@@ -205,22 +208,39 @@ function renderActions() {
   const container = document.getElementById("actionsList");
   container.innerHTML = "";
 
-  // Reckless Attack
-  const row = document.createElement("div");
-  row.className = "attack-row";
+  // Relentless Endurance
+  const relentlessEnduranceRow = document.createElement("div");
+  relentlessEnduranceRow.className = "attack-row";
 
-  row.innerHTML = `
+  relentlessEnduranceRow.innerHTML = `
+    <div class="attack-header" style="flex:1">
+      <h4>Relentless Endurance</h4>
+      <span class="badge">
+        <input type="checkbox" name="relentlessEndurance" id="relentlessEndurance" style="pointer-events: none;" ${state.relentlessEnduranceUsed ? "checked" : ""}>
+      </span>
+    </div>
+    <button class="action-button" ${state.hitPoints === 0 ? "" : "disabled"}>Use</button>
+  `;
+
+  relentlessEnduranceRow.querySelector("button").onclick = relentlessEndurance;
+  container.appendChild(relentlessEnduranceRow);
+
+  // Reckless Attack
+  const recklessAttackRow = document.createElement("div");
+  recklessAttackRow.className = "attack-row";
+
+  recklessAttackRow.innerHTML = `
     <div class="attack-header" style="flex:1">
       <h4>Reckless Attack</h4>
       <span class="badge">
-        <input type="checkbox" name="recklessAttack" id="recklessAttack" disabled ${state.recklessAttack.active ? "checked" : ""}>
+        <input type="checkbox" name="recklessAttack" id="recklessAttack" style="pointer-events: none;" ${state.recklessAttack.active ? "checked" : ""}>
       </span>
     </div>
     <button class="action-button" style="display:${state.combat.inCombat ? "block" : "none"}" ${state.combat.attackLastRound ? "disabled" : ""}>${state.recklessAttack.active ? "Don't" : "Do"}</button>
   `;
 
-  row.querySelector("button").onclick = toggleRecklessAttack;
-  container.appendChild(row);
+  recklessAttackRow.querySelector("button").onclick = toggleRecklessAttack;
+  container.appendChild(recklessAttackRow);
 
   // Attacks
   for (const atk of character.attacks) {
@@ -364,7 +384,7 @@ function performAttack(atk) {
 function toggleRecklessAttack() {
   state.recklessAttack.active = !state.recklessAttack.active;
   saveState();
-  renderActions(); 
+  renderActions();
 }
 
 // ---------- Rage ----------
@@ -404,6 +424,7 @@ function toggleRage() {
 function toggleCombat() {
   if (state.combat.inCombat) {
     state.combat.inCombat = false;
+    endRage();
   } else {
     state.combat.inCombat = true;
     const initDie = rollDie(20);
@@ -435,16 +456,27 @@ function startTurn() {
 
 // ---------- Rest ----------
 function takeShortRest() {
-  if (state.spentHitDice >= character.level) {
-    alert("Cannot regain hit points, all hit die spent.")
-  } else {
-    const hitPointsRegained = rollDie(cls.hitDie) + getEffectiveStat("CON").modifier;
-    state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, character.maxHitPoints);
-    state.spentHitDice += 1;
-    saveState();
-    renderHitPoints();
-    alert(`You regained hit points`)
+  let hitPointsRegained = 0;
+  const hitDice = document.getElementById("restInput").querySelectorAll("input:not([checked]):checked").length;
+  for (let i = 0; i < hitDice; i++) {
+    hitPointsRegained += rollDie(cls.hitDie) + getEffectiveStat("CON").modifier;
   }
+  state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, character.maxHitPoints);
+  state.spentHitDice += hitDice;
+  saveState();
+  renderHitPoints();
+  renderRest();
+  alert(`You regained hit points`)
+  // if (state.spentHitDice >= character.level) {
+  //   alert("Cannot regain hit points, all hit die spent.")
+  // } else {
+  //   const hitPointsRegained = rollDie(cls.hitDie) + getEffectiveStat("CON").modifier;
+  //   state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, character.maxHitPoints);
+  //   state.spentHitDice += 1;
+  //   saveState();
+  //   renderHitPoints();
+  //   alert(`You regained hit points`)
+  // }
 }
 
 function takeLongRest() {
@@ -458,14 +490,15 @@ function takeLongRest() {
   state.relentlessEnduranceUsed = false;
   saveState();
   renderHitPoints();
+  renderRest();
   renderRage();
+  renderActions();
   alert(`You've taken a long rest`);
 }
 
 // ---------- HP ------------
 function takeDamage() {
-  const damageForm = document.getElementById("damageInput");
-  const damagePoints = document.getElementById("damagePoints").value;
+  const damagePoints = document.getElementById("healthPoints").value;
   const damageType = document.getElementById("damageType").value;
   const effectiveDamage =
     Object.values(state.resistance).flat().includes(damageType) ?
@@ -476,16 +509,14 @@ function takeDamage() {
   }
   saveState();
   renderHitPoints();
-  damageForm.reset();
+  renderActions();
 }
 
 function heal() {
-  const healForm = document.getElementById("healInput");
-  const healPoints = document.getElementById("healPoints").value;
+  const healPoints = document.getElementById("healthPoints").value;
   state.hitPoints = Math.min(character.maxHitPoints, state.hitPoints + healPoints);
   saveState();
   renderHitPoints();
-  healForm.reset();
 }
 
 function relentlessEndurance() {
@@ -493,6 +524,7 @@ function relentlessEndurance() {
   state.relentlessEnduranceUsed = true;
   saveState();
   renderHitPoints();
+  renderActions();
 }
 
 // ---------- Load ----------
@@ -506,13 +538,16 @@ async function loadAll() {
   race = data.race;
   background = data.background;
 
+  document.title = `D&D Character — ${character.name}`
   document.getElementById("charName").innerText =
     `${character.name} (Lv ${character.level})`;
   document.getElementById("raceLine").textContent = race?.name ?? "";
   document.getElementById("classLine").textContent = cls?.name ?? "";
+  document.getElementById("bgLine").textContent = background?.name ?? "";
   document.getElementById("armorClassBox").innerText = 10 + getEffectiveStat("DEX").modifier + getEffectiveStat("CON").modifier;
 
   renderHitPoints();
+  renderRest();
   renderConditions();
   renderStats();
   renderSavingThrow();
@@ -526,30 +561,70 @@ async function loadAll() {
 
 // ---------- Wire events ----------
 document.getElementById("toggleCombatBtn").onclick = toggleCombat;
-document.getElementById("recordDamageBtn").onclick = () => {
-  document.getElementById("damageDialog").showModal();
-};
-document.getElementById("healBtn").onclick = () => {
-  document.getElementById("healDialog").showModal();
+document.getElementById("hp").onclick = () => {
+  document.getElementById("hpDialog").showModal();
 };
 document.getElementById("conditionsBtn").onclick = () => {
   document.getElementById("conditionsDialog").showModal();
 };
-document.getElementById("relentlessEnduranceBtn").onclick = relentlessEndurance;
-document.getElementById("damageDialog").addEventListener("close", (e) => {
-  e.target.returnValue !== "" ? takeDamage() : document.getElementById("damageInput").reset();
-});
-document.getElementById("healDialog").addEventListener("close", (e) => {
-  e.target.returnValue !== "" ? heal() : document.getElementById("healInput").reset();
+document.getElementById("restBtn").onclick = () => {
+  document.getElementById("restDialog").showModal();
+}
+document.getElementById("hpDialog").addEventListener("close", (e) => {
+  switch (e.target.returnValue) {
+    case "heal":
+      heal();
+      break;
+    case "damage":
+      takeDamage();
+      break;
+    default:
+      console.log(`Unknown return value: ${e.target.returnValue}`);
+  };
+  document.getElementById("hpInput").reset();
 });
 document.getElementById("conditionsDialog").addEventListener("close", (e) => {
   e.target.returnValue !== "" ? applyConditions() : null;
   renderConditions();
 });
+document.getElementById("restDialog").addEventListener("close", (e) => {
+  switch (e.target.returnValue) {
+    case "shortRest":
+      takeShortRest();
+      break;
+    case "longRest":
+      takeLongRest();
+      break;
+    default:
+      break;
+  }
+});
 
-document.getElementById("shortRestBtn").onclick = takeShortRest;
-document.getElementById("longRestBtn").onclick = takeLongRest;
 document.getElementById("startTurnBtn").onclick = startTurn;
+
+// tabs
+const tabButtons = document.querySelectorAll(".tabs button");
+const sections = document.querySelectorAll("section");
+
+// default selected tab (first one)
+function activateTab(name) {
+  sections.forEach(sec => {
+    sec.classList.toggle("active", sec.id === name + "Section");
+  });
+
+  tabButtons.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === name);
+  });
+}
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    activateTab(btn.dataset.tab);
+  });
+});
+
+// Initialize for mobile if needed
+activateTab("stats");
 
 // Kick off
 loadAll();

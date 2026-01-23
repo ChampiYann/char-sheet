@@ -1,6 +1,6 @@
 {
   "combat": {
-    "attackLastRound": true,
+    "attackLastRound": false,
     "bonusAction": false,
     "damageLastRound": false,
     "inCombat": true,
@@ -18,9 +18,18 @@
   "relentlessEnduranceUsed": false,
   "resistance": {
     "rage": [
+      "acid",
       "bludgeoning",
+      "cold",
+      "fire",
+      "force",
+      "lightning",
+      "necrotic",
       "piercing",
-      "slashing"
+      "poison",
+      "radiant",
+      "slashing",
+      "thunder"
     ]
   },
   "saveAdvantages": {
