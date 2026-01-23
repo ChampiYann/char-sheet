@@ -3,48 +3,26 @@
     "attackLastRound": false,
     "bonusAction": false,
     "damageLastRound": false,
-    "inCombat": true,
+    "inCombat": false,
     "initiative": 18
   },
   "conditions": [],
-  "hitPoints": 25,
+  "hitPoints": 35,
   "rage": {
-    "active": true,
-    "usedCharges": 1
+    "active": false,
+    "usedCharges": 0
   },
   "recklessAttack": {
-    "active": true
+    "active": false
   },
   "relentlessEnduranceUsed": false,
-  "resistance": {
-    "rage": [
-      "acid",
-      "bludgeoning",
-      "cold",
-      "fire",
-      "force",
-      "lightning",
-      "necrotic",
-      "piercing",
-      "poison",
-      "radiant",
-      "slashing",
-      "thunder"
-    ]
-  },
+  "resistance": {},
   "saveAdvantages": {
     "dangerSense": [
       "DEX"
-    ],
-    "rage": [
-      "STR"
     ]
   },
   "skillAdvantages": {},
   "spentHitDice": 0,
-  "statAdvantages": {
-    "rage": [
-      "STR"
-    ]
-  }
+  "statAdvantages": {}
 }

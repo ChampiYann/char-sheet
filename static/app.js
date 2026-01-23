@@ -87,9 +87,17 @@ function maxRageCharges() {
   return Math.floor(1.969 + 0.513 * x - 0.0331 * x * x + 0.001 * x * x * x);
 }
 
+function maxHitPoints() {
+ let maxHitPoints = character.level1HitPoints + getEffectiveStat("CON").modifier;
+  for (let i = 0; i < character.level - 1; i++) {
+    maxHitPoints += character.hitPointRolls[i] + i * getEffectiveStat("CON").modifier;
+  }
+  return maxHitPoints;
+}
+
 // ---------- UI Rendering ----------
 function renderHitPoints() {
-  document.getElementById("hpBox").innerText = `${state.hitPoints}/${character.maxHitPoints}`;
+  document.getElementById("hpBox").innerText = `${state.hitPoints}/${maxHitPoints()}`;
 }
 
 function renderRest() {
@@ -461,22 +469,12 @@ function takeShortRest() {
   for (let i = 0; i < hitDice; i++) {
     hitPointsRegained += rollDie(cls.hitDie) + getEffectiveStat("CON").modifier;
   }
-  state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, character.maxHitPoints);
+  state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, maxHitPoints());
   state.spentHitDice += hitDice;
   saveState();
   renderHitPoints();
   renderRest();
   alert(`You regained hit points`)
-  // if (state.spentHitDice >= character.level) {
-  //   alert("Cannot regain hit points, all hit die spent.")
-  // } else {
-  //   const hitPointsRegained = rollDie(cls.hitDie) + getEffectiveStat("CON").modifier;
-  //   state.hitPoints = Math.min(state.hitPoints + hitPointsRegained, character.maxHitPoints);
-  //   state.spentHitDice += 1;
-  //   saveState();
-  //   renderHitPoints();
-  //   alert(`You regained hit points`)
-  // }
 }
 
 function takeLongRest() {
@@ -485,7 +483,7 @@ function takeLongRest() {
   // reset half the hit die in favour of player
   state.spentHitDice = Math.max(0, Math.floor(state.spentHitDice - character.level / 2));
   // regain all HP
-  state.hitPoints = character.maxHitPoints;
+  state.hitPoints = maxHitPoints();
   // reset relentless endurance
   state.relentlessEnduranceUsed = false;
   saveState();
@@ -514,7 +512,7 @@ function takeDamage() {
 
 function heal() {
   const healPoints = document.getElementById("healthPoints").value;
-  state.hitPoints = Math.min(character.maxHitPoints, state.hitPoints + healPoints);
+  state.hitPoints = Math.min(maxHitPoints(), state.hitPoints + healPoints);
   saveState();
   renderHitPoints();
 }
