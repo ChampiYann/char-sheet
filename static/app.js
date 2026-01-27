@@ -88,7 +88,7 @@ function maxRageCharges() {
 }
 
 function maxHitPoints() {
- let maxHitPoints = character.level1HitPoints + getEffectiveStat("CON").modifier;
+ let maxHitPoints = cls.level1HitPoints + getEffectiveStat("CON").modifier;
   for (let i = 0; i < character.level - 1; i++) {
     maxHitPoints += character.hitPointRolls[i] + i * getEffectiveStat("CON").modifier;
   }
@@ -295,6 +295,29 @@ function renderBonusActions() {
   renderRage();
 }
 
+function renderSpells() {
+  const container = document.getElementById("spellsList");
+  container.innerHTML = "";
+
+  for (const spell of cls.spells) {
+    const row = document.createElement("div");
+    row.className = "attack-row";
+
+    row.innerHTML = `
+      <div class="attack-header" style="flex:1">
+        <h4>${spell.name}</h4>
+        <span class="badge">
+          Type: ${spell.type}<br>
+          Duration: ${spell.duration}<br>
+          ${spell.description}
+        </span>
+      </div>
+    `;
+
+    container.appendChild(row);
+  }  
+}
+
 // ---------- Conditions -------
 function applyConditions() {
   const form = document.getElementById("conditionsInput");
@@ -442,6 +465,7 @@ function toggleCombat() {
     // Set initiative
     state.combat.damageLastRound = false;
     state.combat.attackLastRound = false;
+    state.combat.bonusAction = false;
   }
   saveState();
   renderCombat();
@@ -554,6 +578,7 @@ async function loadAll() {
   renderBonusActions();
   renderCombat();
   renderRage();
+  renderSpells();
   // updateUIMode();
 }
 
