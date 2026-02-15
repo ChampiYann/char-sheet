@@ -17,8 +17,8 @@ def index():
 
 @app.route("/api/load")
 def api_load():
-    character = load_json("character.json")
-    state = load_json("state.json")
+    character = load_json("character/character.json")
+    state = load_json("character/state.json")
 
     cls = None
     if "class" in character:
