@@ -17,8 +17,8 @@ def index():
 
 @app.route("/api/load")
 def api_load():
-    character = load_json("character.json")
-    state = load_json("state.json")
+    character = load_json("character/character.json")
+    state = load_json("character/state.json")
 
     cls = None
     if "class" in character:
@@ -46,4 +46,4 @@ def api_save_state():
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
