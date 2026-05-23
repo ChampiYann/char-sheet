@@ -11,11 +11,18 @@
 <body>
 
   <section id="header">
-    <div class="name">
-      <h1 id="charName">Loading...</h1>
-      <div id="raceLine"></div>
-      <div id="classLine"></div>
-      <div id="bgLine"></div>
+    <div id="char">
+      <div>
+        <div class="name">
+          <h1 id="charName">Loading...</h1>
+        </div>
+        <div>
+          <h2 id="raceLine"></h2>
+          <h2 id="classLine"></h2>
+          <h2 id="bgLine"></h2>
+        </div>
+      </div>
+      <div id="picture"><img class="picture" src="/static/char.png" alt="character picture" align="right" /></div>
     </div>
 
     <div id="headerStats">
@@ -139,6 +146,11 @@
     <button data-tab="skill">Skills</button>
     <button data-tab="action">Actions</button>
   </div>
+
+  <section id="inventorySection">
+    <h2>Inventory</h2>
+    <div id="inventoryList">Loading...</div>
+  </section>
 
   <section id="statsSection">
     <h2>Abilities</h2>
@@ -299,7 +311,7 @@
 
   <section id="spellsSection">
     <h2>Spells</h2>
-    <div id="spellsList"></div>
+    <div id="spellsList">Loading...</div>
   </section>
 
   <!-- 🔥 JS MOVED OUT -->

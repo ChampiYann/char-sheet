@@ -1,0 +1,76 @@
+{
+  "inventory": [
+    {
+      "equipable": 0,
+      "name": "bedroll",
+      "quantity": 1,
+      "type": "gear"
+    },
+    {
+      "equipable": 2,
+      "name": "greataxe",
+      "quantity": 1,
+      "type": "weapon"
+    },
+    {
+      "equipable": 1,
+      "name": "hand axe",
+      "quantity": 2,
+      "type": "weapon"
+    },
+    {
+      "equipable": 0,
+      "name": "javelin",
+      "quantity": 4,
+      "type": "weapon"
+    },
+    {
+      "equipable": 0,
+      "name": "oil",
+      "quantity": 1,
+      "type": "gear"
+    },
+    {
+      "equipable": 0,
+      "name": "potion of healing",
+      "quantity": 1,
+      "type": "potion"
+    },
+    {
+      "equipable": 0,
+      "name": "rations",
+      "quantity": 10,
+      "type": "gear"
+    },
+    {
+      "equipable": 0,
+      "name": "rope",
+      "quantity": 1,
+      "type": "gear"
+    },
+    {
+      "equipable": 1,
+      "name": "shield",
+      "quantity": 1,
+      "type": "shield"
+    },
+    {
+      "equipable": 0,
+      "name": "tinderbox",
+      "quantity": 1,
+      "type": "gear"
+    },
+    {
+      "equipable": 0,
+      "name": "torch",
+      "quantity": 9,
+      "type": "gear"
+    },
+    {
+      "equipable": 0,
+      "name": "waterskin",
+      "quantity": 1,
+      "type": "gear"
+    }
+  ]
+}
