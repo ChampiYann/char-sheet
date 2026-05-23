@@ -148,8 +148,36 @@
   </div>
 
   <section id="inventorySection">
-    <h2>Inventory</h2>
+    <h2 id="inventoryHeading">Inventory</h2>
     <div id="inventoryList">Loading...</div>
+    <dialog id="inventoryDialog">
+      <form id="inventoryInput" method="dialog">
+        <h2>Add item</h2>
+        <label>Name:
+          <input type="text" id="newInventoryItemName" name="name" />
+        </label>
+        <label>Quantity:
+          <input id="newInventoryItemQuantity" type="number" name="quantity" value="0" />
+        </label>
+        <label>Type:
+          <select name="type" id="newInventoryItemType">
+            <option value="gear">Gear</option>
+            <option value="potion">Potion</option>
+            <option value="shield">Shield</option>
+            <option value="weapon">Weapon</option>
+          </select>
+        </label>
+        <label>Equippable:
+          <select name="equippable" id="newInventoryItemEquippable">
+            <option value="0">Nope</option>
+            <option value="1">One handed</option>
+            <option value="2">Two handed</option>
+          </select>
+        </label>
+        <button formmethod="dialog" value="">Cancel</button>
+        <button formmethod="dialog" value="submit">Submit</button>
+      </form>
+    </dialog>
   </section>
 
   <section id="statsSection">
@@ -304,9 +332,9 @@
 
   <section id="actionSection">
     <h2>Actions</h2>
-    <div id="actionsList"></div>
+    <div id="actionsList">Loading...</div>
     <h3>Bonus Actions</h3>
-    <div id="bonusActionsList"></div>
+    <div id="bonusActionsList">Loading...</div>
   </section>
 
   <section id="spellsSection">

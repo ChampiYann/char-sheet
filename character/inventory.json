@@ -1,10 +1,10 @@
 {
   "inventory": [
     {
-      "equipable": 0,
       "name": "bedroll",
+      "type": "gear",
       "quantity": 1,
-      "type": "gear"
+      "equippable": 0
     },
     {
       "equipable": 2,

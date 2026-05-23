@@ -608,6 +608,30 @@ function inventoryMinOne(name) {
   renderInventory()
 }
 
+function addInventoryItem() {
+  const itemName = document.getElementById("newInventoryItemName").value.toLowerCase();
+  const itemQuantity = parseInt(document.getElementById("newInventoryItemQuantity").value);
+
+  const existingItemIdx = inventory.inventory.findIndex((item) => item.name === itemName)
+  if (existingItemIdx !== -1) {
+    inventory.inventory[existingItemIdx].quantity = itemQuantity
+    if (inventory.inventory[existingItemIdx].quantity <= 0) {
+      inventory.inventory.splice(existingItemIdx, 1)
+    }
+  } else {
+    const newItem = {};
+    newItem.name = itemName;
+    newItem.type = document.getElementById("newInventoryItemType").value;
+    newItem.quantity = itemQuantity;
+    newItem.equippable = parseInt(document.getElementById("newInventoryItemEquippable").value);
+
+    inventory.inventory.push(newItem)
+  }
+
+  saveInventory()
+  renderInventory()
+}
+
 // ---------- Load ----------
 async function loadAll() {
   const res = await fetch("/api/load");
@@ -654,6 +678,9 @@ document.getElementById("conditionsBtn").onclick = () => {
 document.getElementById("restBtn").onclick = () => {
   document.getElementById("restDialog").showModal();
 }
+document.getElementById("inventoryHeading").onclick = () => {
+  document.getElementById("inventoryDialog").showModal();
+}
 document.getElementById("hpDialog").addEventListener("close", (e) => {
   switch (e.target.returnValue) {
     case "heal":
@@ -682,6 +709,10 @@ document.getElementById("restDialog").addEventListener("close", (e) => {
     default:
       break;
   }
+});
+document.getElementById("inventoryDialog").addEventListener("close", (e) => {
+  e.target.returnValue !== "" ? addInventoryItem() : null;
+  document.getElementById("inventoryInput").reset();
 });
 
 document.getElementById("startTurnBtn").onclick = startTurn;
