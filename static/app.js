@@ -120,7 +120,7 @@ function renderRest() {
     let input = document.createElement("input");
     input.type = "checkbox";
     input.style.pointerEvents = "none";
-    // input.setAttribute("disabled", null);
+    input.setAttribute("disabled", null);
     input.setAttribute("checked", null);
     label.appendChild(input);
   }
