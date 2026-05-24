@@ -19,6 +19,7 @@ def index():
 def api_load():
     character = load_json("character/character.json")
     state = load_json("character/state.json")
+    inventory = load_json("character/inventory.json")
 
     cls = None
     if "class" in character:
@@ -37,12 +38,18 @@ def api_load():
         "state": state,
         "cls": cls,
         "race": race,
-        "background": background
+        "background": background,
+        "inventory": inventory
     })
 
 @app.route("/api/save_state", methods=["POST"])
 def api_save_state():
-    save_json("state.json", request.json)
+    save_json("character/state.json", request.json)
+    return jsonify({"ok": True})
+
+@app.route("/api/save_inventory", methods=["POST"])
+def api_save_inventory():
+    save_json("character/inventory.json", request.json)
     return jsonify({"ok": True})
 
 if __name__ == "__main__":

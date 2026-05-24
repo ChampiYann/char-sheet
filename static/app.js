@@ -30,6 +30,14 @@ function saveState() {
   });
 }
 
+function saveInventory() {
+  fetch("/api/save_inventory", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(inventory)
+  });
+}
+
 function rollDie(sides) {
   return Math.floor(Math.random() * sides) + 1;
 }
@@ -88,11 +96,15 @@ function maxRageCharges() {
 }
 
 function maxHitPoints() {
- let maxHitPoints = cls.level1HitPoints + getEffectiveStat("CON").modifier;
+  let maxHitPoints = cls.level1HitPoints + getEffectiveStat("CON").modifier;
   for (let i = 0; i < character.level - 1; i++) {
     maxHitPoints += character.hitPointRolls[i] + i * getEffectiveStat("CON").modifier;
   }
   return maxHitPoints;
+}
+
+function capitalizeFirstLetter(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
 
 // ---------- UI Rendering ----------
@@ -108,7 +120,7 @@ function renderRest() {
     let input = document.createElement("input");
     input.type = "checkbox";
     input.style.pointerEvents = "none";
-    // input.setAttribute("disabled", null);
+    input.setAttribute("disabled", null);
     input.setAttribute("checked", null);
     label.appendChild(input);
   }
@@ -315,7 +327,34 @@ function renderSpells() {
     `;
 
     container.appendChild(row);
-  }  
+  }
+}
+
+function renderInventory() {
+  const container = document.getElementById("inventoryList");
+  container.innerHTML = "";
+
+  let inv = inventory.inventory.sort((a, b) => a.name.localeCompare(b.name));
+
+  for (const item of inventory.inventory) {
+    const row = document.createElement("div");
+    row.className = "attack-row";
+
+    row.innerHTML = `
+      <div class="attack-header" style="flex:1">
+        <h4>${capitalizeFirstLetter(item.name)}</h4>
+        <span class="badge">
+          Quantity: ${item.quantity}
+        </span>
+      </div>
+      <button class="action-button inv-add">+</button>
+      <button class="action-button inv-min">-</button>
+    `;
+
+    row.querySelector(".inv-add").onclick = () => inventoryAddOne(item.name)
+    row.querySelector(".inv-min").onclick = () => inventoryMinOne(item.name)
+    container.appendChild(row);
+  }
 }
 
 // ---------- Conditions -------
@@ -549,6 +588,50 @@ function relentlessEndurance() {
   renderActions();
 }
 
+// ---------- Inventory ---------
+function inventoryAddOne(name) {
+  inventory.inventory.find((item) => item.name === name).quantity += 1
+
+  saveInventory()
+  renderInventory()
+}
+
+function inventoryMinOne(name) {
+  const itemIdx = inventory.inventory.findIndex((item) => item.name === name)
+  inventory.inventory[itemIdx].quantity -= 1
+
+  if (inventory.inventory[itemIdx].quantity <= 0) {
+    inventory.inventory.splice(itemIdx, 1)
+  }
+
+  saveInventory()
+  renderInventory()
+}
+
+function addInventoryItem() {
+  const itemName = document.getElementById("newInventoryItemName").value.toLowerCase();
+  const itemQuantity = parseInt(document.getElementById("newInventoryItemQuantity").value);
+
+  const existingItemIdx = inventory.inventory.findIndex((item) => item.name === itemName)
+  if (existingItemIdx !== -1) {
+    inventory.inventory[existingItemIdx].quantity = itemQuantity
+    if (inventory.inventory[existingItemIdx].quantity <= 0) {
+      inventory.inventory.splice(existingItemIdx, 1)
+    }
+  } else {
+    const newItem = {};
+    newItem.name = itemName;
+    newItem.type = document.getElementById("newInventoryItemType").value;
+    newItem.quantity = itemQuantity;
+    newItem.equippable = parseInt(document.getElementById("newInventoryItemEquippable").value);
+
+    inventory.inventory.push(newItem)
+  }
+
+  saveInventory()
+  renderInventory()
+}
+
 // ---------- Load ----------
 async function loadAll() {
   const res = await fetch("/api/load");
@@ -559,6 +642,7 @@ async function loadAll() {
   cls = data.cls;
   race = data.race;
   background = data.background;
+  inventory = data.inventory;
 
   document.title = `D&D Character — ${character.name}`
   document.getElementById("charName").innerText =
@@ -579,6 +663,7 @@ async function loadAll() {
   renderCombat();
   renderRage();
   renderSpells();
+  renderInventory();
   // updateUIMode();
 }
 
@@ -592,6 +677,9 @@ document.getElementById("conditionsBtn").onclick = () => {
 };
 document.getElementById("restBtn").onclick = () => {
   document.getElementById("restDialog").showModal();
+}
+document.getElementById("inventoryHeading").onclick = () => {
+  document.getElementById("inventoryDialog").showModal();
 }
 document.getElementById("hpDialog").addEventListener("close", (e) => {
   switch (e.target.returnValue) {
@@ -621,6 +709,10 @@ document.getElementById("restDialog").addEventListener("close", (e) => {
     default:
       break;
   }
+});
+document.getElementById("inventoryDialog").addEventListener("close", (e) => {
+  e.target.returnValue !== "" ? addInventoryItem() : null;
+  document.getElementById("inventoryInput").reset();
 });
 
 document.getElementById("startTurnBtn").onclick = startTurn;
