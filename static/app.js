@@ -152,9 +152,10 @@ function renderStats() {
 
   for (const stat of Object.keys(character.stats)) {
     const s = getEffectiveStat(stat);
+    const adv = Object.values(state.statAdvantages).flat().includes(stat);
 
     const btn = grid.querySelector(`div[name="${stat}"]`);
-    btn.querySelector(`.stat-mod`).textContent = s.modifier >= 0 ? "+" + s.modifier : s.modifier;
+    btn.querySelector(`.stat-mod`).textContent = (s.modifier >= 0 ? "+" + s.modifier : s.modifier) + (adv ? "*" : "");
     btn.querySelector(`.stat-base`).textContent = s.total;
     btn.onclick = () => rollStat(stat);
   }
@@ -169,9 +170,10 @@ function renderSavingThrow() {
 
   for (const stat of Object.keys(character.stats)) {
     const s = getEffectiveStat(stat).modifier + getEffectiveStat(stat).saveBonus;
+    const adv = Object.values(state.saveAdvantages).flat().includes(stat);
 
     const btn = grid.querySelector(`div[name="${stat}"]`);
-    btn.querySelector(`.stat-mod`).textContent = s >= 0 ? "+" + s : s;
+    btn.querySelector(`.stat-mod`).textContent = (s >= 0 ? "+" + s : s) + (adv ? "*" : "");
     btn.onclick = () => rollSave(stat);
   }
 }
@@ -373,6 +375,7 @@ function checkDangerSense() {
   } else {
     state.saveAdvantages.dangerSense = cls.dangerSense.saveAdvantages;
   }
+  renderSavingThrow();
 }
 
 // ---------- Stats ------------
@@ -488,6 +491,9 @@ function toggleRage() {
   renderActions();
   renderBonusActions();
   renderRage();
+  renderStats();
+  renderSavingThrow();
+  renderSkills();
 }
 
 // ---------- Combat ----------

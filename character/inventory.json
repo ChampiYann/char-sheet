@@ -1,9 +1,15 @@
 {
   "inventory": [
     {
+      "equippable": 0,
       "name": "bedroll",
-      "type": "gear",
       "quantity": 1,
+      "type": "gear"
+    },
+    {
+      "name": "gold",
+      "type": "gear",
+      "quantity": 47,
       "equippable": 0
     },
     {
@@ -71,6 +77,12 @@
       "name": "waterskin",
       "quantity": 1,
       "type": "gear"
+    },
+    {
+      "name": "partial dice set",
+      "type": "gear",
+      "quantity": 1,
+      "equippable": 0
     }
   ]
 }

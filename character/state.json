@@ -1,7 +1,4 @@
 {
-  "equipped": [
-    "greataxe"
-  ],
   "combat": {
     "attackLastRound": false,
     "bonusAction": true,
@@ -10,10 +7,13 @@
     "initiative": 18
   },
   "conditions": [],
+  "equipped": [
+    "greataxe"
+  ],
   "hitPoints": 35,
   "rage": {
     "active": false,
-    "usedCharges": 2
+    "usedCharges": 0
   },
   "recklessAttack": {
     "active": false
@@ -26,6 +26,6 @@
     ]
   },
   "skillAdvantages": {},
-  "spentHitDice": 1,
+  "spentHitDice": 0,
   "statAdvantages": {}
 }
