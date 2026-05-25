@@ -181,7 +181,7 @@
   </section>
 
   <section id="statsSection">
-    <h2>Abilities</h2>
+    <h2 id="statsHeading">Abilities</h2>
     <div class="stats-grid" id="statsGrid">
       <div name="STR" class="bg-border">
         <div class="stat-name">Strength</div>
@@ -214,6 +214,30 @@
         <div class="stat-base">-</div>
       </div>
     </div>
+    <dialog id="statsDialog">
+      <form id="statsInput" method="dialog">
+        <label>STR:
+          <input id="tempSTR" type="number" name="STR" value="0" />
+        </label>
+        <label>DEX:
+          <input id="tempDEX" type="number" name="DEX" value="0" />
+        </label>
+        <label>CON:
+          <input id="tempCON" type="number" name="CON" value="0" />
+        </label>
+        <label>INT:
+          <input id="tempINT" type="number" name="INT" value="0" />
+        </label>
+        <label>WIS:
+          <input id="tempWIS" type="number" name="WIS" value="0" />
+        </label>
+        <label>CHA:
+          <input id="tempCHA" type="number" name="CHA" value="0" />
+        </label>
+        <button formmethod="dialog" value="">Cancel</button>
+        <button formmethod="dialog" value="submit">Submit</button>
+      </form>
+    </dialog>
   </section>
 
   <section id="savingThrowSection">

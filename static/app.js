@@ -64,7 +64,7 @@ function getProficiencyBonus() {
 }
 
 function getEffectiveStat(stat) {
-  const base = character.stats[stat].base;
+  const base = character.stats[stat].base + state.tempBaseMod[stat];
   const racialBonus = race?.abilityBonuses?.[stat] ?? 0;
   const saveBonus = cls?.proficiency?.saves?.includes(stat) ? getProficiencyBonus() : 0;
   return {
@@ -158,6 +158,13 @@ function renderStats() {
     btn.querySelector(`.stat-mod`).textContent = (s.modifier >= 0 ? "+" + s.modifier : s.modifier) + (adv ? "*" : "");
     btn.querySelector(`.stat-base`).textContent = s.total;
     btn.onclick = () => rollStat(stat);
+  }
+
+  const form = document.getElementById("statsInput");
+  const inputs = form.querySelectorAll("input");
+
+  for (const input of inputs) {
+    input.value = state.tempBaseMod[input.name];
   }
 
   const init = getEffectiveStat("DEX").modifier;
@@ -413,6 +420,22 @@ function rollSkill(skill) {
   }
   const d20Text = d20.map((x) => `${x === 20 || x === 1 ? "nat " : ""}${x}`).join(" / ");
   alert(`${skill} check${adv ? " with advantage" : ""}: ${d20Text} + ${s.totalMod} = ${Math.max(...d20) + s.totalMod}`)
+}
+
+function applyTempStats() {
+  const form = document.getElementById("statsInput");
+  const inputs = form.querySelectorAll("input");
+
+  for (const input of inputs) {
+    state.tempBaseMod[input.name] = parseInt(input.value);
+  }
+
+  saveState();
+  renderStats();
+  renderSavingThrow();
+  renderSkills();
+  renderActions();
+  renderBonusActions();
 }
 
 // ---------- Attacks ----------
@@ -683,10 +706,13 @@ document.getElementById("conditionsBtn").onclick = () => {
 };
 document.getElementById("restBtn").onclick = () => {
   document.getElementById("restDialog").showModal();
-}
+};
+document.getElementById("statsHeading").onclick = () => {
+  document.getElementById("statsDialog").showModal();
+};
 document.getElementById("inventoryHeading").onclick = () => {
   document.getElementById("inventoryDialog").showModal();
-}
+};
 document.getElementById("hpDialog").addEventListener("close", (e) => {
   switch (e.target.returnValue) {
     case "heal":
@@ -715,6 +741,9 @@ document.getElementById("restDialog").addEventListener("close", (e) => {
     default:
       break;
   }
+});
+document.getElementById("statsDialog").addEventListener("close", (e) => {
+  e.target.returnValue !== "" ? applyTempStats() : null;
 });
 document.getElementById("inventoryDialog").addEventListener("close", (e) => {
   e.target.returnValue !== "" ? addInventoryItem() : null;
